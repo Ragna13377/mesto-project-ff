@@ -1,0 +1,49 @@
+{
+  "name": "yandex-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'Привет!'",
+    "check": "prettier --check ./!(_dist)/**/*.{pug,html,scss,css,js}",
+    "format": "prettier --write ./!(_dist)/**/*.{pug,html,scss,css,js}",
+    "lint": "stylelint ./!(_dist)/*.{scss,css}",
+    "lintfix": "stylelint ./!(_dist)/*.{scss,css} --fix",
+    "checkAll": "npm run check && npm run lint",
+    "fixAll": "npm run format && npm run lintfix",
+    "build": "gulp build",
+    "dev": "gulp"
+  },
+  "browserslist": [
+    "last 5 versions"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prettier/plugin-pug": "^3.0.0",
+    "autoprefixer": "^10.4.15",
+    "browser-sync": "^2.29.3",
+    "browserslist": "^4.21.10",
+    "cssnano": "^6.0.1",
+    "del": "^6.0.0",
+    "fs": "^0.0.1-security",
+    "gulp": "^4.0.2",
+    "gulp-concat-css": "^3.1.0",
+    "gulp-fonter": "^0.3.0",
+    "gulp-if": "^3.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-pug": "^5.0.0",
+    "gulp-replace": "^1.1.4",
+    "gulp-sass": "^5.1.0",
+    "gulp-ttf2woff2": "^4.0.1",
+    "html-minifier": "^4.0.0",
+    "postcss": "^8.4.28",
+    "postcss-combine-media-query": "^1.0.1",
+    "prettier": "^3.0.3",
+    "sass": "^1.66.1",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard-scss": "^11.0.0",
+    "webpack-stream": "^7.0.0"
+  }
+}

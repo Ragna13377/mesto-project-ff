@@ -40,7 +40,6 @@
       <form class="popup__form" name="edit-profile">
         <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
         <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
-        <!--Можно добавить required, они про него знают-->
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -67,13 +66,10 @@
 <script src="./scripts/cards.js"></script>
 <script src="./scripts/index.js" defer></script>
 
-<!--Относится к реализации 4-го спринта-->
 <template id="card-template">
-  <!--Про тег темплейт студенты узнают из уроков 4-го спринта-->
   <li class="places__item card">
     <img class="card__image" src="" alt="" />
     <button type="button" class="card__delete-button"></button>
-    <!--Фоновое, инлайном-->
     <div class="card__description">
       <h2 class="card__title">
       </h2>
