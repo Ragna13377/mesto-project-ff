@@ -14,7 +14,9 @@
   -ms-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
-  transition: visibility 0s, opacity 0.3s;
+  transition:
+    visibility 0s,
+    opacity 0.3s;
   /*Транзишн пора бы уже знать*/
   padding: 0;
   margin: 0;
