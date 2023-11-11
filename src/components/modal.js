@@ -1,33 +1,32 @@
 const searchOpenedPopup = () => document.querySelector('.popup_is-opened');
-const resetForm = (popup) => popup.querySelector('.popup__form')?.reset();
-
-const openPopup = (popup) => popup.classList.add('popup_is-opened');
-const closePopup = (popup) => popup.classList.remove('popup_is-opened');
-const closeByEsc = (popup) => {
-  closePopup(popup);
+const openPopup = (popup) => {
+  popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', closeEscHandler);
+}
+const closePopup = (popup) => {
+  popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closeEscHandler);
-};
+}
+
 const closeEscHandler = (e) => {
   if(e.key === 'Escape') {
-    closeByEsc(searchOpenedPopup());
+    closePopup(searchOpenedPopup());
   }
 };
 
 const closeOutsideHandler = (e) => {
-  if(e.target.closest('.popup__content') === null) {
-    closePopup(searchOpenedPopup());
+  if(e.target.classList.contains('popup')) {
+    closePopup(e.currentTarget);
   }
 };
 
 const closeCrossHandler = (e) => {
   if(e.target.classList.contains('popup__close')) {
-    const openedPopup = searchOpenedPopup();
-    resetForm(openedPopup);
-    closePopup(openedPopup);
+    closePopup(e.currentTarget);
   }
 }
 
-export { closeCrossHandler, closeOutsideHandler, closeEscHandler, openPopup, closePopup }
+export { closeCrossHandler, closeOutsideHandler, openPopup, closePopup }
 
 
 

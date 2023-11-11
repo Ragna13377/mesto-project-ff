@@ -1,27 +1,27 @@
 import '../pages/index.css';
-import { initialCards } from "./card.js"
+import { initialCards } from "./cards.js"
 import { makeCard } from "@/components/card.js"
 import {
   closeCrossHandler,
   closeOutsideHandler,
-  closeEscHandler,
   openPopup,
-  closePopup,
+  closePopup
 } from "@/components/modal.js"
 
-const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.places__list');
-function Profile(element) {
-  this.element = document.querySelector(element);
-  this.setValue = (value) => {
+class Profile {
+  constructor(element){
+    this.element = document.querySelector(element);
+  }
+  setValue (value) {
     this.element.textContent = value;
   }
-  this.getElement = () => {
+  getValue() {
     return this.element.textContent;
   }
 }
-const titleProfile = new Profile('.profile__title')
-const descriptionProfile = new Profile('.profile__description')
+const titleProfile = new Profile('.profile__title');
+const descriptionProfile = new Profile('.profile__description');
 
 const triggerNewCard = document.querySelector('.profile__add-button');
 const popupNewCard = document.querySelector('.popup_type_new-card');
@@ -31,9 +31,11 @@ const triggerTypeEdit = document.querySelector('.profile__edit-button');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
 const popupTypeEditForm = popupTypeEdit.querySelector('.popup__form');
 
-function PopupProfile(element) {
-  this.element = popupTypeEdit.querySelector(element);
-  this.setValue = (value) => {
+class PopupProfile {
+  constructor(element) {
+    this.element = popupTypeEdit.querySelector(element);
+  }
+  setValue (value) {
     this.element.value = value;
   }
 }
@@ -47,8 +49,8 @@ popupTypeImage.image = popupTypeImage.element.querySelector('.popup__image');
 popupTypeImage.caption = popupTypeImage.element.querySelector('.popup__caption');
 
 const setProfileInfo = () => {
-  popupProfileTitle.setValue(titleProfile.getElement());
-  popupProfileDescription.setValue(descriptionProfile.getElement());
+  popupProfileTitle.setValue(titleProfile.getValue());
+  popupProfileDescription.setValue(descriptionProfile.getValue());
 }
 
 const submitFormNewCard = (e) => {
@@ -76,21 +78,32 @@ const formEditProfileHandler = (e) => {
   closePopup(popupTypeEdit);
 }
 
-const openPopupHandler = (popup) => {
-  openPopup(popup);
-  document.addEventListener('keydown', closeEscHandler);
-};
+const openCardPopupHandler = (imageSrc, imageCaption) => {
+  popupTypeImage.image.src = imageSrc;
+  popupTypeImage.caption.textContent = imageCaption;
+  openPopup(popupTypeImage.element);
+}
 
-function addCard(card) {
-  if(card !== null) cardContainer.prepend(makeCard(card, cardTemplate));
+function addCard(card, openCardAction) {
+  const createdCard = makeCard(card);
+  const imageSrc = createdCard.querySelector('.card__image').src;
+  const imageCaption = createdCard.querySelector('.card__description').textContent;
+  createdCard.querySelector('.card__image').addEventListener('click', () => openCardAction(imageSrc, imageCaption))
+  cardContainer.prepend(createdCard);
 }
 
 for (let item of initialCards) {
-  addCard(item);
+  addCard(item, openCardPopupHandler);
 }
-setProfileInfo();
-triggerNewCard.addEventListener('click', () => openPopupHandler(popupNewCard));
-triggerTypeEdit.addEventListener('click', () => openPopupHandler(popupTypeEdit));
+
+triggerNewCard.addEventListener('click', () => {
+  popupNewCardForm.reset();
+  openPopup(popupNewCard);
+});
+triggerTypeEdit.addEventListener('click', () => {
+  setProfileInfo();
+  openPopup(popupTypeEdit)
+});
 popupNewCardForm.addEventListener('submit', formNewCardHandler);
 popupTypeEditForm.addEventListener('submit', formEditProfileHandler);
 popupNewCard.addEventListener('click', closeOutsideHandler);
@@ -99,3 +112,6 @@ popupTypeEdit.addEventListener('click', closeOutsideHandler);
 popupTypeEdit.addEventListener('click', closeCrossHandler);
 popupTypeImage.element.addEventListener('click', closeOutsideHandler);
 popupTypeImage.element.addEventListener('click', closeCrossHandler);
+
+
+
