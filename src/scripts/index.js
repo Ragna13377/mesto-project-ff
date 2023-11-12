@@ -85,10 +85,7 @@ const openCardPopupHandler = (imageSrc, imageCaption) => {
 }
 
 function addCard(card, openCardAction) {
-  const createdCard = makeCard(card);
-  const imageSrc = createdCard.querySelector('.card__image').src;
-  const imageCaption = createdCard.querySelector('.card__description').textContent;
-  createdCard.querySelector('.card__image').addEventListener('click', () => openCardAction(imageSrc, imageCaption))
+  const createdCard = makeCard(card, openCardAction);
   cardContainer.prepend(createdCard);
 }
 
