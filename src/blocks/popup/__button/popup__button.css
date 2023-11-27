@@ -9,11 +9,18 @@
   justify-content: center;
   background: #000;
   border-radius: 2px;
-  border: none;
+  border: 1px solid transparent;
   transition:
     visibility 0s,
     background 0.3s;
   margin-top: 48px;
+}
+
+.popup__button_disabled{
+  background: white;
+  color: #C4C4C4;
+  border-color: #C4C4C4;
+  pointer-events: none;
 }
 
 .popup__button:hover {

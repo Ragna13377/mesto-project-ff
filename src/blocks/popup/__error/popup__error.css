@@ -1,0 +1,16 @@
+.popup__error{
+  visibility: hidden;
+  opacity: 0;
+  color: #F00;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 5px;
+  min-height: 30px;
+  display: block;
+}
+.popup__error_visible{
+  visibility: visible;
+  opacity: 1;
+}

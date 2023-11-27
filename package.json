@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'Привет!'",
     "check": "prettier --check ./!(_dist)/**/*.{pug,html,scss,css,js}",
     "format": "prettier --write ./!(_dist)/**/*.{pug,html,scss,css,js}",
     "lint": "stylelint ./!(_dist)/*.{scss,css}",
@@ -12,7 +11,9 @@
     "checkAll": "npm run check && npm run lint",
     "fixAll": "npm run format && npm run lintfix",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "dev": "cross-env NODE_ENV=development webpack serve"
+    "dev": "cross-env NODE_ENV=development webpack serve",
+    "predeploy":  "npm run build",
+    "deploy":  "gh-pages -d dist"
   },
   "browserslist": [
     "last 5 versions"
@@ -29,6 +30,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "cssnano": "^6.0.1",
+    "gh-pages": "^6.1.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.3",
