@@ -32,15 +32,6 @@ const handleResponse = (response) => {
   }
 }
 
-const handleDeleteResponse = (response) => {
-  if(response.ok) {
-    return Promise.all([response.json(), response.url]).then(res => { return Promise.resolve(res) })
-  } else {
-    return Promise.reject(response)
-  }
-}
-
-
 const createElement = (url, data) => post(url, data);
 const updateElement = (url, data, isPatch = false) => post(url, data, isPatch ? "PATCH" : "PUT");
 const deleteElement = (url) => post(url, {}, "DELETE");
