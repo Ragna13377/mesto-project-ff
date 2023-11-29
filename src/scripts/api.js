@@ -26,7 +26,7 @@ const post = (uri, data, method = "POST") => {
 
 const handleResponse = (response) => {
   if(response.ok) {
-    return response.json().then(res => { res.url = response.url; return Promise.resolve(res) })
+    return response.json().then(res =>  Promise.resolve(res))
   } else {
     return Promise.reject(response)
   }
@@ -35,5 +35,6 @@ const handleResponse = (response) => {
 const createElement = (url, data) => post(url, data);
 const updateElement = (url, data, isPatch = false) => post(url, data, isPatch ? "PATCH" : "PUT");
 const deleteElement = (url) => post(url, {}, "DELETE");
+const getInitialData = (userUrl, cardUrl) => Promise.all([get(userUrl), get(cardUrl)])
 
-export { get, updateElement, createElement, deleteElement, handleError }
+export { getInitialData, updateElement, createElement, deleteElement, handleError }

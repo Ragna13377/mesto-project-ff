@@ -1,10 +1,10 @@
 import '../pages/index.css';
 import { makeCard, deleteCard, likeCardHandler } from "@/components/card.js";
-import { enableValidation, clearValidation } from "./validation.js";
-import { handleSubmit } from "./util.js";
-import { get, updateElement, createElement, deleteElement, handleError } from "./api.js";
-import {closeCrossHandler, closeOutsideHandler, closePopup, openPopup} from "@/components/modal.js";
-import { clearValidationOptions, cardContainer, profile, popupNewCard, popupDeleteCard, popupEditAvatar, popupEditProfile, popupTypeImage } from "./variables.js"
+import { enableValidation } from "./validation.js";
+import { handleSubmit, triggerHandler } from "./util.js";
+import { getInitialData, updateElement, createElement, deleteElement, handleError } from "./api.js";
+import {closeCrossHandler, closeOutsideHandler, openPopup} from "@/components/modal.js";
+import { cardContainer, profile, popupNewCard, popupDeleteCard, popupEditAvatar, popupEditProfile, popupTypeImage } from "./variables.js"
 
 let currentUserId = '';
 
@@ -20,7 +20,6 @@ const addNewCardRequest = (event) => {
     return createElement('/cards', requestedData)
       .then(response => {
         addCard(response);
-        closePopup(formElement.closest('.popup'));
         return formElement;
       })
   }
@@ -35,7 +34,6 @@ const editProfileRequest = (event) => {
       .then(response => {
         profile.title.textContent = response.name;
         profile.description.textContent = response.about;
-        closePopup(formElement.closest('.popup'));
         return formElement;
       })
   }
@@ -49,7 +47,6 @@ const editProfileAvatarRequest = (event) => {
     return updateElement('/users/me/avatar', requestedData, true)
       .then(response => {
         profile.image.style.backgroundImage = `url("${response.avatar}"`
-        closePopup(formElement.closest('.popup'));
         return formElement;
       })
   }
@@ -59,9 +56,9 @@ const editProfileAvatarRequest = (event) => {
 const deleteCardRequest = (event) => {
   function makeRequest(formElement) {
     return deleteElement('/cards/' + event.currentTarget.dataset.id)
-      .then(response => {
-        deleteCard(response.url.split('/').at(-1));
-        closePopup(formElement.closest('.popup'));
+      .then(() => {
+        deleteCard(formElement.dataset.id);
+        return formElement;
       })
   }
   handleSubmit(makeRequest, event);
@@ -69,6 +66,7 @@ const deleteCardRequest = (event) => {
 
 const openCardPopupHandler = (imageSrc, imageCaption) => {
   popupTypeImage.image.src = imageSrc;
+  popupTypeImage.image.alt = imageCaption;
   popupTypeImage.caption.textContent = imageCaption;
   openPopup(popupTypeImage.rootElement);
 }
@@ -82,15 +80,6 @@ function addCard(card) {
   card.currentUserId = currentUserId;
   const createdCard = makeCard(card, openCardPopupHandler, openDeletingCardPopupHandler, likeCardHandler);
   cardContainer.prepend(createdCard);
-}
-
-const triggerHandler = (popup, action = () => {}) => {
-  popup.trigger.addEventListener('click', () => {
-    popup.form.reset();
-    action();
-    clearValidation(popup.form, clearValidationOptions);
-    openPopup(popup.rootElement);
-  });
 }
 
 triggerHandler(popupNewCard);
@@ -116,7 +105,7 @@ enableValidation({
   errorClass: 'popup__error_visible'
 });
 
-Promise.all([get('/users/me'), get('/cards')])
+getInitialData('/users/me','/cards')
   .then(([user, cards] ) => {
     profile.title.textContent = user.name;
     profile.description.textContent = user.about;
